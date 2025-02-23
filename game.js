@@ -419,4 +419,4 @@ function setupEventListeners() {
     });
 }
 
-setInterval(createPowerUp, 100
+setInterval(createPowerUp, 10000);
