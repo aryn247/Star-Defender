@@ -29,6 +29,7 @@ let powerUps = [];
 let projectiles = [];
 let isPaused = false;
 let isGameOver = false;
+let lastTouchTime = 0;
 
 highScoreElement.textContent = highScore;
 
@@ -277,6 +278,8 @@ function updateGame() {
             powerUps.splice(index, 1);
         }
     });
+
+    requestAnimationFrame(updateGame);
 }
 
 function increaseDifficulty() {
@@ -288,7 +291,6 @@ function increaseDifficulty() {
 }
 
 function gameOver() {
-    clearInterval(gameInterval);
     isGameOver = true;
     gameOverModal.classList.remove('hidden');
     finalScoreElement.textContent = score;
@@ -320,7 +322,7 @@ function resetGame() {
 
 function startGame() {
     resetGame();
-    gameInterval = setInterval(updateGame, 1000 / 60);
+    requestAnimationFrame(updateGame);
     setupEventListeners();
 }
 
@@ -399,7 +401,11 @@ function setupEventListeners() {
     });
 
     canvas.addEventListener('touchstart', (e) => {
-        if (player) player.shoot();
+        const now = Date.now();
+        if (now - lastTouchTime > 100) { // Debounce touch events to reduce lag
+            lastTouchTime = now;
+            if (player) player.shoot();
+        }
     });
 
     // Resize canvas on window resize
