@@ -197,7 +197,7 @@ function createEnemies(numEnemies) {
         const width = 50;
         const height = 50;
         const x = Math.random() * (canvas.width - width);
-        const y = Math.random() * -canvas.height; // Start enemies above the canvas
+        const y = Math.random() * -canvas.height - height; // Start enemies above the canvas
         const speed = Math.random() * 2 + 1;
         const type = Math.random() > 0.7 ? 'fast' : Math.random() > 0.4 ? 'zigzag' : 'normal';
         enemies.push(new Enemy(x, y, width, height, speed, type));
@@ -396,7 +396,7 @@ function setupEventListeners() {
         }
     });
 
-    canvas.addEventListener('touchend', () => {
+    canvas.addEventListener('touchend', (e) => {
         if (player) player.stop();
     });
 
@@ -419,4 +419,4 @@ function setupEventListeners() {
     });
 }
 
-setInterval(createPowerUp, 10000);
+setInterval(createPowerUp, 100
